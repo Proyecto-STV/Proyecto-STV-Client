@@ -25,6 +25,7 @@ public class Client extends Thread implements IConstants {
         this.funcion = pFuncion;
         this.identification = pIdentification;
         personObverser = new PersonObverser();
+        personObverser.addObserver(loginView);
         this.loginView = loginView;
     }
     
@@ -71,8 +72,8 @@ public class Client extends Thread implements IConstants {
     }
 
     private void validateIdentification(Socket socket) throws IOException, ClassNotFoundException {
-        ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
-        personObverser.addObserver(loginView);
+        ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());        
+        personObverser.notifyWindow(objectIn.readObject());
         personObverser.notifyWindow(objectIn.readObject());
     }
 

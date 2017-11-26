@@ -5,6 +5,7 @@ import business.Client;
 import business.PersonObverser;
 import business.PuestoObserver;
 import domain.Candidato;
+import domain.Persona;
 import domain.Puesto;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +20,17 @@ import util.IConstants;
  */
 public class LoginView extends javax.swing.JPanel implements IConstants, Observer {
 
-    private final PrincipalWindow frame;
+    private PrincipalWindow principalWindow;
     private List<CandidateView> candidateViews;
 
     /**
      * Creates new form LoginView
      *
-     * @param frame
+     * @param principalWindow
      */
-    public LoginView(PrincipalWindow frame) {
+    public LoginView(PrincipalWindow principalWindow) {
         initComponents();
-        this.frame = frame;
+        this.principalWindow = principalWindow;
     }
 
     /**
@@ -169,8 +170,9 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
                     default:
                         break;
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "No puede ingresar al sistema");
+            } else if (arg instanceof Persona){
+                Persona persona = (Persona) arg;
+                principalWindow.setPersona(persona);
             }
         }
         if (o instanceof CandidateObserver){
@@ -195,7 +197,7 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
                 Puesto puesto = (Puesto) arg;
                 PapeletaView papeletaView = new PapeletaView(candidateViews);
                 papeletaView.setPueto(puesto);
-                frame.addPanel(papeletaView);
+                principalWindow.addPanel(papeletaView);
             }
         }
     }

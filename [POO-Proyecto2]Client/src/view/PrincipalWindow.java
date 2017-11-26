@@ -1,5 +1,6 @@
 package view;
 
+import domain.Persona;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ public class PrincipalWindow extends javax.swing.JFrame {
 
     private LoginView login;
     private JPanel contentPane;
+    private Persona persona;
     /**
      * Creates new form PrincipalWindow
      */
@@ -82,4 +84,12 @@ public class PrincipalWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     // End of variables declaration//GEN-END:variables
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }       
 }
