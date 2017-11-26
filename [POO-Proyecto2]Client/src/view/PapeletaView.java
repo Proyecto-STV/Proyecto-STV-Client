@@ -1,9 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -11,28 +11,58 @@ package view;
  */
 public class PapeletaView extends javax.swing.JPanel {
 
-    private CandidateView [][] candidateView;
-    private CandidateView [][] candidateSelected;
+    private List<CandidateView> candidateView;
+    private List<CandidateView> candidateSelected;
+
+    private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane2;
+    private JPanel panel1;
+    private JPanel panel2;
     
+    private int cantidadCandidatos;
+
     /**
      * Creates new form PapeletaView
+     *
      * @param candidateViews
      */
-    public PapeletaView(CandidateView[][] candidateViews) {
-        initComponents();        
+    public PapeletaView(List<CandidateView> candidateViews) {
+        initComponents();
         this.candidateView = candidateViews;
-        this.candidateSelected = new CandidateView[this.candidateView.length][this.candidateView[0].length];
-        init();        
-    }
-    
-    private void init(){
-        for (int i = 0; i < candidateView.length; i++) {
-            for (int j = 0; j < candidateView[0].length; j++) {
-                panelCandidates.add(candidateView[i][j]).setBounds(i * 145, j * 315, 145, 315);
+        this.candidateSelected = new ArrayList<>();
+        this.cantidadCandidatos = candidateView.size();
+        
+        panel1 = new JPanel();        
+        jScrollPane1 = new JScrollPane(panel1);        
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JScrollPane1MouseClicked(evt);
             }
-            updateUI();
-            repaint();
-        }        
+        });
+        add(jScrollPane1).setBounds(10, 10, 467, 345);
+        panel2 = new JPanel();        
+        jScrollPane2 = new JScrollPane(panel2);
+        jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JScrollPane2MouseClicked(evt);
+            }
+        });
+        add(jScrollPane2).setBounds(650, 10, 467, 345);
+        init();
+    }
+
+    private void init() {
+        for (int i = 0; i < candidateView.size(); i++) {
+            panel1.add(candidateView.get(i)).setBounds(i * 145, 0, 145, 315);
+            PapeletaEmptyView emptyView = new PapeletaEmptyView();
+            emptyView.setLabelNumber((i + 1) + "");
+            panel2.add(emptyView).setBounds(i*140, 0, 145, 315);
+            panel2.revalidate();
+            jScrollPane1.revalidate();
+            jScrollPane1.repaint();                        
+        }
     }
 
     /**
@@ -44,124 +74,81 @@ public class PapeletaView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        panelCandidates = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        panelCandidatesSelected = new javax.swing.JPanel();
-
         setBackground(new java.awt.Color(255, 255, 255));
-
-        panelCandidates.setBackground(new java.awt.Color(255, 255, 255));
-        panelCandidates.setName(""); // NOI18N
-        panelCandidates.setPreferredSize(null);
-        panelCandidates.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelCandidatesMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelCandidatesLayout = new javax.swing.GroupLayout(panelCandidates);
-        panelCandidates.setLayout(panelCandidatesLayout);
-        panelCandidatesLayout.setHorizontalGroup(
-            panelCandidatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
-        );
-        panelCandidatesLayout.setVerticalGroup(
-            panelCandidatesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(panelCandidates);
-
-        panelCandidatesSelected.setBackground(new java.awt.Color(255, 255, 255));
-        panelCandidatesSelected.setPreferredSize(new java.awt.Dimension(435, 630));
-        panelCandidatesSelected.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelCandidatesSelectedMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelCandidatesSelectedLayout = new javax.swing.GroupLayout(panelCandidatesSelected);
-        panelCandidatesSelected.setLayout(panelCandidatesSelectedLayout);
-        panelCandidatesSelectedLayout.setHorizontalGroup(
-            panelCandidatesSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
-        );
-        panelCandidatesSelectedLayout.setVerticalGroup(
-            panelCandidatesSelectedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-
-        jScrollPane3.setViewportView(panelCandidatesSelected);
+        setPreferredSize(new java.awt.Dimension(1152, 663));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+            .addGap(0, 1152, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(0, 663, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void addCandidateSelected(CandidateView candidate) {
-        for (int i = 0; i < candidateSelected.length; i++) {
-            for (int j = 0; j < candidateSelected[0].length; j++) {
-                if (candidateSelected[i][j] == null){
-                    candidateSelected[i][j] = candidate;
-                    return;
-                }
-            }
-        }        
-    }
-    
-    private void fillSelectedPanelCandidates(){
-        for (int i = 0; i < candidateSelected.length; i++) {
-            for (int j = 0; j < candidateSelected[0].length; j++) {
-                if (candidateSelected[i][j] != null)
-                    panelCandidatesSelected.add(candidateSelected[i][j]).setBounds(i * 145, j * 315, 145, 315);
-            }
+    private void JScrollPane1MouseClicked (java.awt.event.MouseEvent evt){
+        int i = evt.getX() / 145;
+        if (candidateView.size() > 0){
+            try {
+                CandidateView candidato = candidateView.get(i);
+                candidateView.remove(candidato);
+                candidateSelected.add(candidato);
+                renderCandidates();
+            } catch (ClassCastException | IndexOutOfBoundsException e){
+                
+            }            
         }
     }
     
-    private void panelCandidatesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelCandidatesMouseClicked
-        int i = evt.getX()/145;
-        int j = evt.getY()/315;        
-        addCandidateSelected(candidateView[i][j]); 
-        fillSelectedPanelCandidates();
-        panelCandidates.repaint();
-        panelCandidates.updateUI();
-        panelCandidatesSelected.repaint();
-        panelCandidatesSelected.updateUI();
-    }//GEN-LAST:event_panelCandidatesMouseClicked
+    private void JScrollPane2MouseClicked (java.awt.event.MouseEvent evt){
+        int i = evt.getX() / 145;
+        if (candidateSelected.size() > 0){
+            try {
+                CandidateView candidato = candidateSelected.get(i);
+                candidateSelected.remove(candidato);
+                candidateView.add(candidato);
+                renderCandidates();
+            } catch (ClassCastException | IndexOutOfBoundsException e){
+                
+            }            
+        }
+    }
 
-    private void panelCandidatesSelectedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelCandidatesSelectedMouseClicked
-        int i = evt.getX()/145;
-        int j = evt.getY()/315;
-        panelCandidates.add(candidateView[i][j]);
-        panelCandidates.repaint();
-        panelCandidates.updateUI();
-        panelCandidatesSelected.repaint();
-        panelCandidatesSelected.updateUI();
-    }//GEN-LAST:event_panelCandidatesSelectedMouseClicked
-
+    private void renderCandidates() {
+        panel1.removeAll();
+        panel2.removeAll();
+        for (int i = 0; i < cantidadCandidatos; i++) {
+            try {            
+                panel1.add(candidateView.get(i)).setBounds(i * 145, 0, 145, 315);
+            } catch (IndexOutOfBoundsException e){
+                PapeletaEmptyView papeletaEmptyView = new PapeletaEmptyView();
+                papeletaEmptyView.setLabelNumber("-");
+                panel1.add(papeletaEmptyView).setBounds(i *145, 0, 145, 315);
+            }            
+        }    
+        
+        for (int i = 0; i < cantidadCandidatos; i++) {
+            try {            
+                panel2.add(candidateSelected.get(i)).setBounds(i * 145, 0, 145, 315);
+            } catch (IndexOutOfBoundsException e) {
+                PapeletaEmptyView papeletaEmptyView = new PapeletaEmptyView();
+                papeletaEmptyView.setLabelNumber(i + "");
+                panel2.add(papeletaEmptyView).setBounds(i *145, 0, 145, 315);
+            }
+        }
+        panel1.revalidate();
+        panel2.revalidate();
+        panel1.repaint();
+        panel2.repaint();
+        jScrollPane1.revalidate();
+        jScrollPane1.repaint();
+        jScrollPane2.revalidate();
+        jScrollPane2.repaint();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JPanel panelCandidates;
-    private javax.swing.JPanel panelCandidatesSelected;
     // End of variables declaration//GEN-END:variables
 }

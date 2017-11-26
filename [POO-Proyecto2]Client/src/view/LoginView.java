@@ -2,6 +2,8 @@ package view;
 
 import business.Client;
 import business.PersonObverser;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -11,12 +13,13 @@ import util.IConstants;
  *
  * @author Nelson
  */
-public class LoginView extends javax.swing.JPanel implements IConstants, Observer{
+public class LoginView extends javax.swing.JPanel implements IConstants, Observer {
 
     private final PrincipalWindow frame;
 
     /**
      * Creates new form LoginView
+     *
      * @param frame
      */
     public LoginView(PrincipalWindow frame) {
@@ -103,22 +106,31 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCheckIdentityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckIdentityActionPerformed
+        List<CandidateView> candidateViews = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+          //  for (int j = 0; j < candidateViews[0].length; j++) {
+                candidateViews.add(new CandidateView());
+           // }
+        }
+        PapeletaView papeletaView = new PapeletaView(candidateViews);
+        frame.addPanel(papeletaView);
+        /*
         if (txtIdentity.getText().equals("N° de Identificación")){
             JOptionPane.showMessageDialog(null, "Ingrese su identificación");
             return;
         } 
         Client client = new Client(VALIDATE_IDENTIFITATION, txtIdentity.getText(), this);        
-        client.start();
+        client.start();*/
     }//GEN-LAST:event_btnCheckIdentityActionPerformed
 
     private void txtIdentityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtIdentityMouseClicked
-        if (txtIdentity.getText().equals("N° de Identificación")){
+        if (txtIdentity.getText().equals("N° de Identificación")) {
             txtIdentity.setText("");
         }
     }//GEN-LAST:event_txtIdentityMouseClicked
 
     private void txtIdentityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdentityFocusLost
-        if (txtIdentity.getText().isEmpty()){
+        if (txtIdentity.getText().isEmpty()) {
             txtIdentity.setText("N° de Identificación");
         }
     }//GEN-LAST:event_txtIdentityFocusLost
@@ -133,16 +145,16 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof PersonObverser){
-            if ((boolean) arg){
-                CandidateView [][] candidateViews = new CandidateView[4][4];
+        if (o instanceof PersonObverser) {
+            if ((boolean) arg) {
+                CandidateView[][] candidateViews = new CandidateView[4][4];
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 4; j++) {
                         candidateViews[i][j] = new CandidateView();
-                    }            
+                    }
                 }
-                PapeletaView papeletaView = new PapeletaView(candidateViews);
-                frame.addPanel(papeletaView);        
+                //PapeletaView papeletaView = new PapeletaView(candidateViews);
+                //frame.addPanel(papeletaView);
             } else {
                 JOptionPane.showMessageDialog(null, "No puede ingresar al sistema");
             }
