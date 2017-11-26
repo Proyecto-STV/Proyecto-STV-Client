@@ -146,15 +146,28 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof PersonObverser) {
-            if ((boolean) arg) {
-                CandidateView[][] candidateViews = new CandidateView[4][4];
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 4; j++) {
-                        candidateViews[i][j] = new CandidateView();
-                    }
+            if (arg instanceof Integer) {
+                int respond = (int) arg;
+                switch (respond) {
+                    case 1:
+                        CandidateView[][] candidateViews = new CandidateView[4][4];
+                        for (int i = 0; i < 4; i++) {
+                            for (int j = 0; j < 4; j++) {
+                                candidateViews[i][j] = new CandidateView();
+                            }
+                        }
+                        //PapeletaView papeletaView = new PapeletaView(candidateViews);
+                        //frame.addPanel(papeletaView);
+                        break;
+                    case 0:
+                        JOptionPane.showMessageDialog(null, "No puede realizar la votación");
+                        break;
+                    case -1:
+                        JOptionPane.showMessageDialog(null, "No existe un periodo de votación activo");
+                        break;
+                    default:
+                        break;
                 }
-                //PapeletaView papeletaView = new PapeletaView(candidateViews);
-                //frame.addPanel(papeletaView);
             } else {
                 JOptionPane.showMessageDialog(null, "No puede ingresar al sistema");
             }
