@@ -1,7 +1,11 @@
 package view;
 
+import business.CandidateObserver;
 import business.Client;
 import business.PersonObverser;
+import business.PuestoObserver;
+import domain.Candidato;
+import domain.Puesto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -16,6 +20,7 @@ import util.IConstants;
 public class LoginView extends javax.swing.JPanel implements IConstants, Observer {
 
     private final PrincipalWindow frame;
+    private List<CandidateView> candidateViews;
 
     /**
      * Creates new form LoginView
@@ -106,21 +111,22 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCheckIdentityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckIdentityActionPerformed
+        /*
         List<CandidateView> candidateViews = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
           //  for (int j = 0; j < candidateViews[0].length; j++) {
                 candidateViews.add(new CandidateView());
            // }
-        }
+        }        
         PapeletaView papeletaView = new PapeletaView(candidateViews);
         frame.addPanel(papeletaView);
-        /*
-        if (txtIdentity.getText().equals("N° de Identificación")){
+         */
+        if (txtIdentity.getText().equals("N° de Identificación")) {
             JOptionPane.showMessageDialog(null, "Ingrese su identificación");
             return;
-        } 
-        Client client = new Client(VALIDATE_IDENTIFITATION, txtIdentity.getText(), this);        
-        client.start();*/
+        }
+        Client client = new Client(VALIDATE_IDENTIFITATION, txtIdentity.getText(), this);
+        client.start();
     }//GEN-LAST:event_btnCheckIdentityActionPerformed
 
     private void txtIdentityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtIdentityMouseClicked
@@ -149,15 +155,10 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
             if (arg instanceof Integer) {
                 int respond = (int) arg;
                 switch (respond) {
-                    case 1:
-                        CandidateView[][] candidateViews = new CandidateView[4][4];
-                        for (int i = 0; i < 4; i++) {
-                            for (int j = 0; j < 4; j++) {
-                                candidateViews[i][j] = new CandidateView();
-                            }
-                        }
-                        //PapeletaView papeletaView = new PapeletaView(candidateViews);
-                        //frame.addPanel(papeletaView);
+                    case 1:                        
+                        Client client = new Client(GET_CANDIDATES, this);
+                        client.start();
+                                                
                         break;
                     case 0:
                         JOptionPane.showMessageDialog(null, "No puede realizar la votación");
@@ -170,6 +171,31 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No puede ingresar al sistema");
+            }
+        }
+        if (o instanceof CandidateObserver){
+            if (arg instanceof List){
+                List<Candidato> candidates = (List) arg;
+                candidateViews = new ArrayList<>();
+                for (Candidato candidate : candidates) {                    
+                    CandidateView candidateView = new CandidateView();
+                    candidateView.setLblName(candidate.getNombre());
+                    candidateView.setLblOrganization(candidate.getAgrupacion());
+                    candidateView.setPanelColor(candidate.getColor());
+                    //candidateView.setLblImage(candidate.getFoto());
+                    candidateViews.add(candidateView);
+                }
+                
+                Client client = new Client(GET_POSITION, this);
+                client.start();                                                
+            }
+        }
+        if (o instanceof PuestoObserver){
+            if (arg instanceof Puesto){                                
+                Puesto puesto = (Puesto) arg;
+                PapeletaView papeletaView = new PapeletaView(candidateViews);
+                papeletaView.setPueto(puesto);
+                frame.addPanel(papeletaView);
             }
         }
     }

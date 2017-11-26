@@ -5,6 +5,14 @@
  */
 package view;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Nelson
@@ -28,9 +36,8 @@ public class CandidateView extends javax.swing.JPanel {
     private void initComponents() {
 
         lblName = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        lblPosition = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        lblImage = new javax.swing.JLabel();
+        panelColor = new javax.swing.JPanel();
         lblOrganization = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -38,24 +45,22 @@ public class CandidateView extends javax.swing.JPanel {
 
         lblName.setText("Nombre");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/candidato.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/candidato.png"))); // NOI18N
 
-        lblPosition.setText("Puesto");
+        panelColor.setBackground(new java.awt.Color(0, 153, 51));
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 51));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelColorLayout = new javax.swing.GroupLayout(panelColor);
+        panelColor.setLayout(panelColorLayout);
+        panelColorLayout.setHorizontalGroup(
+            panelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 117, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelColorLayout.setVerticalGroup(
+            panelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 28, Short.MAX_VALUE)
         );
 
-        lblOrganization.setText("Organización");
+        lblOrganization.setText("Agrupación");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -63,22 +68,18 @@ public class CandidateView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(panelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPosition)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1)))))
+                                .addComponent(lblImage))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -89,25 +90,52 @@ public class CandidateView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPosition)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblOrganization)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    public void setPanelColor (int color){
+        panelColor.setBackground(new Color(color));
+    }
+    
+    public void setLblName (String name){
+        lblName.setText(name);
+    }
+    
+    public void setLblOrganization(String organization){
+        lblOrganization.setText(organization);
+    }
+    
+    public void setLblImage(byte [] imageFile){
+        System.out.println("ini");
+        BufferedImage img=null;
+        try {
+            InputStream inputStream = new ByteArrayInputStream(imageFile);
+            img = ImageIO.read(inputStream);
+            System.out.println(img);
+            lblImage.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        //try {
+            //BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageFile));                
+           // lblImage.setIcon(new ImageIcon(img));
+        //} catch (IOException ex) {
+            //Logger.getLogger(CandidateView.class.getName()).log(Level.SEVERE, null, ex);
+        //}
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblOrganization;
-    private javax.swing.JLabel lblPosition;
+    private javax.swing.JPanel panelColor;
     // End of variables declaration//GEN-END:variables
 }

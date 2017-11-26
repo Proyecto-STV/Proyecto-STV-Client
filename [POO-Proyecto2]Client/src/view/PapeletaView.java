@@ -1,5 +1,6 @@
 package view;
 
+import domain.Puesto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -40,7 +41,7 @@ public class PapeletaView extends javax.swing.JPanel {
                 JScrollPane1MouseClicked(evt);
             }
         });
-        add(jScrollPane1).setBounds(10, 10, 467, 345);
+        add(jScrollPane1).setBounds(10, 100, 467, 345);
         panel2 = new JPanel();        
         jScrollPane2 = new JScrollPane(panel2);
         jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -49,7 +50,7 @@ public class PapeletaView extends javax.swing.JPanel {
                 JScrollPane2MouseClicked(evt);
             }
         });
-        add(jScrollPane2).setBounds(650, 10, 467, 345);
+        add(jScrollPane2).setBounds(650, 100, 467, 345);
         init();
     }
 
@@ -74,18 +75,44 @@ public class PapeletaView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        labelPuesto = new javax.swing.JLabel();
+        labelOrganizacion = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1152, 663));
+
+        labelPuesto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelPuesto.setText("jLabel1");
+
+        labelOrganizacion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelOrganizacion.setText("jLabel1");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Elección de:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1152, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(514, 514, 514)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelOrganizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(523, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 663, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addComponent(labelPuesto)
+                .addGap(18, 18, 18)
+                .addComponent(labelOrganizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(421, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,8 +162,8 @@ public class PapeletaView extends javax.swing.JPanel {
                 panel2.add(candidateSelected.get(i)).setBounds(i * 145, 0, 145, 315);
             } catch (IndexOutOfBoundsException e) {
                 PapeletaEmptyView papeletaEmptyView = new PapeletaEmptyView();
-                papeletaEmptyView.setLabelNumber(i + "");
-                panel2.add(papeletaEmptyView).setBounds(i *145, 0, 145, 315);
+                papeletaEmptyView.setLabelNumber((i + 1) + "");
+                panel2.add(papeletaEmptyView).setBounds(i * 145, 0, 145, 315);
             }
         }
         panel1.revalidate();
@@ -149,6 +176,14 @@ public class PapeletaView extends javax.swing.JPanel {
         jScrollPane2.repaint();
     }
 
+    public void setPueto(Puesto puesto){
+        labelPuesto.setText(puesto.getNombre());
+        labelOrganizacion.setText(puesto.getOrganizacion());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel labelOrganizacion;
+    private javax.swing.JLabel labelPuesto;
     // End of variables declaration//GEN-END:variables
 }
