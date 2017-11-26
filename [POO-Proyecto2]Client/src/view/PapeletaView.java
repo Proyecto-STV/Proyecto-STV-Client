@@ -3,6 +3,7 @@ package view;
 import domain.Puesto;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -78,6 +79,7 @@ public class PapeletaView extends javax.swing.JPanel {
         labelPuesto = new javax.swing.JLabel();
         labelOrganizacion = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1152, 663));
@@ -91,6 +93,14 @@ public class PapeletaView extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Elección de:");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setText("Finalizar votación");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,6 +112,10 @@ public class PapeletaView extends javax.swing.JPanel {
                     .addComponent(labelPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(523, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,9 +126,20 @@ public class PapeletaView extends javax.swing.JPanel {
                 .addComponent(labelPuesto)
                 .addGap(18, 18, 18)
                 .addComponent(labelOrganizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(421, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (candidateSelected.size() == 0){
+            int confirmacion = JOptionPane.showConfirmDialog(null, "No ha asignado nigún voto");
+            if (confirmacion == 1 || confirmacion == 2)
+                return;
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void JScrollPane1MouseClicked (java.awt.event.MouseEvent evt){
         int i = evt.getX() / 145;
@@ -182,6 +207,7 @@ public class PapeletaView extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel labelOrganizacion;
     private javax.swing.JLabel labelPuesto;
