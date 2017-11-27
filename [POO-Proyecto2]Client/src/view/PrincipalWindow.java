@@ -1,14 +1,16 @@
 package view;
 
+import business.Client;
 import domain.Persona;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
+import util.IConstants;
 /**
  *
  * @author Nelson
  */
-public class PrincipalWindow extends javax.swing.JFrame {
+public class PrincipalWindow extends javax.swing.JFrame implements IConstants{
 
     private LoginView login;
     private JPanel contentPane;
@@ -52,6 +54,11 @@ public class PrincipalWindow extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -79,6 +86,11 @@ public class PrincipalWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Client client = new Client(CLIENT_CLOSED, login, persona);
+        client.start();
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

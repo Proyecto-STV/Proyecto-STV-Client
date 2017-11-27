@@ -134,7 +134,7 @@ public class PapeletaView extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (candidateSelected.size() == 0){
-            int confirmacion = JOptionPane.showConfirmDialog(null, "No ha asignado nigún voto");
+            int confirmacion = JOptionPane.showConfirmDialog(null, "No ha asignado nigún voto, ¿Continuar?");
             if (confirmacion == 1 || confirmacion == 2)
                 return;
         }

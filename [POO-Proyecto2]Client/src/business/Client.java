@@ -1,11 +1,15 @@
 package business;
+import domain.Persona;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import util.IConstants;
 import view.LoginView;
@@ -17,7 +21,9 @@ public class Client extends Thread implements IConstants {
     
     private PersonObverser personObverser;
     private CandidateObserver candidateObverser;
-    private PuestoObserver puestoObserver;
+    private PuestoObserver puestoObserver;    
+    
+    private Persona persona;
     
     private LoginView loginView;
 
@@ -37,6 +43,15 @@ public class Client extends Thread implements IConstants {
         
         this.puestoObserver = new PuestoObserver();
         this.puestoObserver.addObserver(loginView);
+    }
+
+    public Client(String funcion, LoginView loginView, Persona persona) {
+        this.loginView = loginView;        
+        this.persona = persona; 
+        if (persona != null)
+            this.funcion = funcion;
+        else
+            this.funcion = "";
     }
     
     @Override
@@ -64,16 +79,21 @@ public class Client extends Thread implements IConstants {
                     getCandidates(socket);
                 } else if (funcion.equalsIgnoreCase(GET_POSITION)){
                     getPosition(socket);
+                } else if (funcion.equalsIgnoreCase(CLIENT_CLOSED)){
+                    clientClossing(socket);
                 }
-            }
-        } catch (ClassNotFoundException | IOException ex) {
-            JOptionPane.showMessageDialog(null, "No se puede realizar la conexión con el servidor");
+            }      
+            //JOptionPane.showMessageDialog(null, "No se puede realizar la conexión con el servidor");
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
 
     private void validateIdentification(Socket socket) throws IOException, ClassNotFoundException {
         ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());        
         personObverser.notifyWindow(objectIn.readObject());
+        ObjectOutputStream objectOut = new ObjectOutputStream(socket.getOutputStream());
+        objectOut.writeObject(1);        
         personObverser.notifyWindow(objectIn.readObject());
     }
 
@@ -87,6 +107,12 @@ public class Client extends Thread implements IConstants {
         ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
         Object inputObject = objectIn.readObject();  
         puestoObserver.notifyWindow(inputObject);
+    }
+
+    private void clientClossing(Socket socket) throws IOException {
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        persona.setHaIngresado(false);
+        outputStream.writeObject(persona);
     }
 }
 

@@ -1,13 +1,19 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Candidato implements Serializable{
+public class Candidato implements Serializable {
+
     private String nombre;
     private String agrupacion;
     private int color;
     private byte[] foto;
     private String fotoPath;
+
+    private boolean eliminado;
+    public List<Voto> mis_votos = new ArrayList<Voto>();
 
     public Candidato() {
 
@@ -17,11 +23,12 @@ public class Candidato implements Serializable{
         return nombre;
     }
 
-    public Candidato(String nombre, String agrupacion, int color, String fotoPath) {        
+    public Candidato(String nombre, String agrupacion, int color, String fotoPath) {
         this.setNombre(nombre);
         this.setAgrupacion(agrupacion);
         this.setColor(color);
         this.setFotoPath(fotoPath);
+        this.eliminado = false;
     }
 
     public void setNombre(String nombre) {
@@ -58,10 +65,22 @@ public class Candidato implements Serializable{
 
     public void setFotoPath(String fotoPath) {
         this.fotoPath = fotoPath;
-    }        
+    }
+
+    public void agregar_a_mis_votos(Voto e) {
+        mis_votos.add(e);
+    }
+
+    public void eliminar() {
+        this.eliminado = true;
+    }
+
+    public boolean is_eliminado() {
+        return this.eliminado;
+    }
 
     @Override
     public String toString() {
         return "Nombre: " + nombre + ", agrupacion: " + agrupacion;
-    }        
+    }
 }
