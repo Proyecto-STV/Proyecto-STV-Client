@@ -22,6 +22,7 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
 
     private PrincipalWindow principalWindow;
     private List<CandidateView> candidateViews;
+    private List<Candidato> candidates;
 
     /**
      * Creates new form LoginView
@@ -177,7 +178,7 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
         }
         if (o instanceof CandidateObserver){
             if (arg instanceof List){
-                List<Candidato> candidates = (List) arg;
+                candidates = (List) arg;
                 candidateViews = new ArrayList<>();
                 for (Candidato candidate : candidates) {                    
                     CandidateView candidateView = new CandidateView();
@@ -195,8 +196,9 @@ public class LoginView extends javax.swing.JPanel implements IConstants, Observe
         if (o instanceof PuestoObserver){
             if (arg instanceof Puesto){                                
                 Puesto puesto = (Puesto) arg;
-                PapeletaView papeletaView = new PapeletaView(candidateViews);
+                PapeletaView papeletaView = new PapeletaView(this, principalWindow, candidateViews);
                 papeletaView.setPueto(puesto);
+                papeletaView.setCandidatos(candidates);
                 principalWindow.addPanel(papeletaView);
             }
         }

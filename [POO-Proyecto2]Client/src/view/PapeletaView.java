@@ -1,34 +1,45 @@
 package view;
 
+import business.Client;
+import domain.Candidato;
 import domain.Puesto;
+import domain.Voto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import util.IConstants;
 
 /**
  *
  * @author Nelson
  */
-public class PapeletaView extends javax.swing.JPanel {
+public class PapeletaView extends javax.swing.JPanel implements IConstants{
 
     private List<CandidateView> candidateView;
     private List<CandidateView> candidateSelected;
 
+    private List<Candidato> listaCandidatos;
+    
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
     private JPanel panel1;
     private JPanel panel2;
     
     private int cantidadCandidatos;
+    
+    private LoginView loginView;
+    private PrincipalWindow principalWindow;
 
     /**
      * Creates new form PapeletaView
      *
+     * @param loginView
+     * @param principalWindow
      * @param candidateViews
      */
-    public PapeletaView(List<CandidateView> candidateViews) {
+    public PapeletaView(LoginView loginView, PrincipalWindow principalWindow, List<CandidateView> candidateViews) {
         initComponents();
         this.candidateView = candidateViews;
         this.candidateSelected = new ArrayList<>();
@@ -53,6 +64,8 @@ public class PapeletaView extends javax.swing.JPanel {
         });
         add(jScrollPane2).setBounds(650, 100, 467, 345);
         init();
+        this.loginView = loginView;
+        this.principalWindow = principalWindow;
     }
 
     private void init() {
@@ -139,6 +152,25 @@ public class PapeletaView extends javax.swing.JPanel {
                 return;
         }
         
+        List<Candidato> candidatosSeleccionado = new ArrayList<>();
+        
+        for (CandidateView candidateSelected1 : candidateSelected) {
+            for (Candidato listaCandidato : listaCandidatos) {
+                if (listaCandidato.getNombre().equals(candidateSelected1.getLblName())
+                        && listaCandidato.getAgrupacion().equals(candidateSelected1.getLblOrganization())){
+                    candidatosSeleccionado.add(listaCandidato);
+                }
+            }
+        }
+        //Un cliente que envía la lista de votantes a como está
+        //Validar si puede mandar la lista en blanco
+        //Empaquedar todo en un objeto voto y mandarlo
+        Voto voto = new Voto(candidatosSeleccionado);
+        Client client = new Client(SEND_VOTE, voto, principalWindow.getPersona());
+        client.start();
+        
+        principalWindow.addPanel(loginView);
+        principalWindow.setPersona(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void JScrollPane1MouseClicked (java.awt.event.MouseEvent evt){
@@ -204,6 +236,10 @@ public class PapeletaView extends javax.swing.JPanel {
     public void setPueto(Puesto puesto){
         labelPuesto.setText(puesto.getNombre());
         labelOrganizacion.setText(puesto.getOrganizacion());
+    }
+    
+    public void setCandidatos(List<Candidato> candidates) {
+        this.listaCandidatos = candidates;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

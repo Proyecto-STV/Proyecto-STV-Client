@@ -109,8 +109,16 @@ public class CandidateView extends javax.swing.JPanel {
         lblName.setText(name);
     }
     
+    public String getLblName(){
+        return lblName.getText();
+    }
+    
     public void setLblOrganization(String organization){
         lblOrganization.setText(organization);
+    }
+    
+    public String getLblOrganization(){
+        return lblOrganization.getText();
     }
     
     public void setLblImage(byte [] imageFile){

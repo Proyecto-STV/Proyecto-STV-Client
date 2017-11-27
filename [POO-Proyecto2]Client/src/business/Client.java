@@ -1,5 +1,6 @@
 package business;
 import domain.Persona;
+import domain.Voto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +25,7 @@ public class Client extends Thread implements IConstants {
     private PuestoObserver puestoObserver;    
     
     private Persona persona;
+    private Voto voto;
     
     private LoginView loginView;
 
@@ -53,6 +55,12 @@ public class Client extends Thread implements IConstants {
         else
             this.funcion = "";
     }
+
+    public Client(String funcion, Voto voto, Persona persona) {
+        this.funcion = funcion;
+        this.voto = voto;      
+        this.persona = persona;
+    }
     
     @Override
     public void run() {
@@ -81,11 +89,13 @@ public class Client extends Thread implements IConstants {
                     getPosition(socket);
                 } else if (funcion.equalsIgnoreCase(CLIENT_CLOSED)){
                     clientClossing(socket);
+                } else if (funcion.equalsIgnoreCase(SEND_VOTE)){
+                    sendVote(socket);
                 }
-            }      
-            //JOptionPane.showMessageDialog(null, "No se puede realizar la conexión con el servidor");
+            }                 
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se puede realizar la conexión con el servidor");
         } 
     }
 
@@ -112,6 +122,14 @@ public class Client extends Thread implements IConstants {
     private void clientClossing(Socket socket) throws IOException {
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
         persona.setHaIngresado(false);
+        outputStream.writeObject(persona);
+    }
+
+    private void sendVote(Socket socket) throws IOException {
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outputStream.writeObject(voto);
+        persona.setHaIngresado(true);
+        persona.setHaVotado(true);
         outputStream.writeObject(persona);
     }
 }
