@@ -171,6 +171,7 @@ public class PapeletaView extends javax.swing.JPanel implements IConstants{
         
         principalWindow.addPanel(loginView);
         principalWindow.setPersona(null);
+        JOptionPane.showMessageDialog(null, "Votación realizada con éxito");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void JScrollPane1MouseClicked (java.awt.event.MouseEvent evt){
